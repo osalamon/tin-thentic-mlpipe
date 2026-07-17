@@ -11,3 +11,6 @@ class IngestConfig:
     START_YEAR: int = 2024
     ALLOWED_EXTENSIONS: Set[str] = field(default_factory=lambda: {"jpg", "jpeg", "png", "heic", "webp"})
     MIN_FILE_SIZE_BYTES: int = 1500
+    OLD_PROFILES_DIR: Path = Path("./old_profiles")
+    SIMILARITY_THRESHOLD: float = 0.85
+    CLIP_MODEL: str = "openai/clip-vit-base-patch32"
