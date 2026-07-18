@@ -31,7 +31,7 @@ class BiometricValidator:
         self._mtcnn: MTCNN = MTCNN(
             keep_all=True,
             device=self._device,
-            thresholds=[0.5, 0.5, 0.5],   # default is [0.6, 0.7, 0.7]
+            thresholds=[0.3, 0.4, 0.4],   # default is [0.6, 0.7, 0.7]
             factor=0.709,
             min_face_size=20,
         )

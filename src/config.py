@@ -15,4 +15,4 @@ class IngestConfig:
     SIMILARITY_THRESHOLD: float = 0.85
     CLIP_MODEL: str = "openai/clip-vit-base-patch32"
     ANCHOR_FACE_PATH: Path = Path("./anchor_face.jpg")
-    FACE_DISTANCE_TOLERANCE: float = 0.65  # Euclidean distance threshold for FaceNet embeddings
+    FACE_DISTANCE_TOLERANCE: float = 1.20  # Euclidean distance threshold for FaceNet embeddings
