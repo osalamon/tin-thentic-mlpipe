@@ -114,3 +114,38 @@ class CLIPExclusionEngine:
             torch.cuda.empty_cache()
 
         return max_sim >= self.config.SIMILARITY_THRESHOLD
+
+
+if __name__ == "__main__":
+    import sys
+
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+
+    config = IngestConfig()
+    engine = CLIPExclusionEngine(config)
+
+    # Print cache stats
+    if engine._cached_embeddings is not None:
+        num_cached = engine._cached_embeddings.shape[0]
+        emb_dim = engine._cached_embeddings.shape[1] if num_cached > 0 else 0
+        logger.info("Cache stats: %d embeddings, dimension=%d", num_cached, emb_dim)
+    else:
+        logger.info("Cache is empty.")
+
+    # Test a sample image if provided as argument, otherwise pick first from old_profiles
+    if len(sys.argv) > 1:
+        test_image = Path(sys.argv[1])
+    else:
+        old_dir = config.OLD_PROFILES_DIR
+        if old_dir.exists():
+            candidates = list(old_dir.iterdir())
+            test_image = candidates[0] if candidates else None
+        else:
+            test_image = None
+
+    if test_image and test_image.exists():
+        logger.info("Testing duplicate check on: %s", test_image)
+        is_dup = engine.is_duplicate(test_image)
+        logger.info("Is duplicate: %s", is_dup)
+    else:
+        logger.warning("No test image available.")
