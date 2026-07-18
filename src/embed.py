@@ -46,8 +46,8 @@ class CLIPExclusionEngine:
             # Normalize to unit length for cosine similarity
             embedding = embedding / embedding.norm(dim=-1, keepdim=True)
             return embedding.cpu()
-        except Exception:
-            logger.warning("Failed to generate embedding for image")
+        except Exception as e:
+            logger.warning("Failed to generate embedding for image: %s", e)
             return None
 
     def _build_cache(self) -> None:
