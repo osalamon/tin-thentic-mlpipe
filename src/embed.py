@@ -42,7 +42,9 @@ class CLIPExclusionEngine:
         try:
             inputs = self.processor(images=image, return_tensors="pt").to(self.device)
             with torch.no_grad():
-                embedding = self.model.get_image_features(**inputs)
+                outputs = self.model.get_image_features(**inputs)
+            # get_image_features returns BaseModelOutputWithPooling; extract the tensor
+            embedding = outputs.pooler_output
             # Normalize to unit length for cosine similarity
             embedding = embedding / embedding.norm(dim=-1, keepdim=True)
             return embedding.cpu()
